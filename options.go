@@ -61,6 +61,9 @@ type TraceOptions struct {
 	// DisableErrSkip, if set to true, will suppress driver.ErrSkip errors in spans.
 	DisableErrSkip bool
 
+	// Sampler to use when creating spans.
+	Sampler trace.Sampler
+
 	// FormatSpanName holds the function to use for generating the span name
 	// from the information found in the context.
 	FormatSpanName func(ctx context.Context, baseName string) string
@@ -185,6 +188,13 @@ func WithDefaultAttributes(attrs ...trace.Attribute) TraceOption {
 func WithDisableErrSkip(b bool) TraceOption {
 	return func(o *TraceOptions) {
 		o.DisableErrSkip = b
+	}
+}
+
+// WithSampler will be used on span creation.
+func WithSampler(sampler trace.Sampler) TraceOption {
+	return func(o *TraceOptions) {
+		o.Sampler = sampler
 	}
 }
 
